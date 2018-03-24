@@ -23,16 +23,16 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 
-// app.get("/", function (req, res) { //При отсутствии супер админа, предложит создать, если он уже есть, залогинится
-//     superadmin.find({status: "superadmin"}, function (err, result) {
-//         if (result.length === 0) {
-//             res.render('signin.ejs');
-//         }
-//         else {
-//             res.render("login.ejs")
-//         }
-//     })
-// });
+app.get("/", function (req, res) { //При отсутствии супер админа, предложит создать, если он уже есть, залогинится
+    superadmin.find({status: "superadmin"}, function (err, result) {
+        if (result.length === 0) {
+            res.render('signin.ejs');
+        }
+        else {
+            res.render("login.ejs")
+        }
+    })
+});
 
 // app.get('/login', function (req, res) {
 //     res.render('login.ejs')
