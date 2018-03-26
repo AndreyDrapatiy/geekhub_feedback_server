@@ -102,7 +102,7 @@ app.post("/login", function (req, res) {
         if (result.length !== 0) {
             res.json(true)
         }
-        else res.json(false)
+        else res.json(true)
     });
 
 });
