@@ -11,7 +11,8 @@ require('./mangoose');
 var userSchema = mongoose.Schema({
 // the record model in bd
     login: String,
-    password: String
+    password: String,
+    status: String
 });
 
 var superadmin = mongoose.model("superadmin", userSchema);
@@ -23,40 +24,40 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 
-app.get("/", function (req, res) { //При отсутствии супер админа, предложит создать, если он уже есть, залогинится
-    superadmin.find({status: "superadmin"}, function (err, result) {
-        if (result.length === 0) {
-            res.render('signin.ejs');
-        }
-        else {
-            res.render("login.ejs")
-        }
-    })
-});
-
-// app.get('/login', function (req, res) {
-//     res.render('login.ejs')
+// app.get("/", function (req, res) { //При отсутствии супер админа, предложит создать, если он уже есть, залогинится
+//     superadmin.find({status: "superadmin"}, function (err, result) {
+//         if (result.length === 0) {
+//             res.render('signin.ejs');
+//         }
+//         else {
+//             res.render("login.ejs")
+//         }
+//     })
 // });
 
-// app.post("/newsuperadmin", function (req, res) {
-//
-//     var id = hash(Math.random().toString());
-//
-//     superadmin.create({
-//
-//             _id: id,
-//             email: req.body.email,
-//             login: req.body.login,
-//             password: hash(req.body.password),
-//             status: "superadmin"
-//
-//         },
-//
-//         function (err) {
-//             if (err) return console.log(err);
-//             console.log("Сохранен объект superadmin", id);
-//         });
-//
+app.get('/login', function (req, res) {
+    res.render('login.ejs')
+});
+
+app.post("/newsuperadmin", function (req, res) {
+
+    var id = hash(Math.random().toString());
+
+    superadmin.create({
+
+            _id: id,
+            email: req.body.email,
+            login: req.body.login,
+            password: hash(req.body.password),
+            status: "superadmin"
+
+        },
+
+        function (err) {
+            if (err) return console.log(err);
+            console.log("Сохранен объект superadmin", id);
+        });
+
 
 //
 //     nodemailer.createTestAccount((err, account) = > {
@@ -89,15 +90,15 @@ app.get("/", function (req, res) { //При отсутствии супер ад
 //     console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
 //     });
 // });
-//     res.redirect('/login')
-//
-//
-// });
+    res.redirect('/login')
+
+
+});
 
 
 app.post("/login", function (req, res) {
 
-    superadmin.find({login: "login", password: hash("pass")}, function (err, result) {
+    superadmin.find({login: req.body.login, password: hash(req.body.password)}, function (err, result) {
         if (result.length !== 0) {
             res.json(true)
         }
@@ -106,7 +107,11 @@ app.post("/login", function (req, res) {
 
 });
 
+app.get("/:id", function (req, res) {
+    var confirmId = req.params.id;
 
+
+});
 
 
 function hash(text) {
