@@ -35,28 +35,28 @@ app.use(bodyParser.json());
 //     })
 // });
 
-app.get('/login', function (req, res) {
-    res.render('login.ejs')
-});
-
-app.post("/newsuperadmin", function (req, res) {
-
-    var id = hash(Math.random().toString());
-
-    superadmin.create({
-
-            _id: id,
-            email: req.body.email,
-            login: req.body.login,
-            password: hash(req.body.password),
-            status: "superadmin"
-
-        },
-
-        function (err) {
-            if (err) return console.log(err);
-            console.log("Сохранен объект superadmin", id);
-        });
+// app.get('/login', function (req, res) {
+//     res.render('login.ejs')
+// });
+//
+// app.post("/newsuperadmin", function (req, res) {
+//
+//     var id = hash(Math.random().toString());
+//
+//     superadmin.create({
+//
+//             _id: id,
+//             email: req.body.email,
+//             login: req.body.login,
+//             password: hash(req.body.password),
+//             status: "superadmin"
+//
+//         },
+//
+//         function (err) {
+//             if (err) return console.log(err);
+//             console.log("Сохранен объект superadmin", id);
+//         });
 
 
 //
@@ -90,15 +90,15 @@ app.post("/newsuperadmin", function (req, res) {
 //     console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
 //     });
 // });
-    res.redirect('/login')
+//     res.redirect('/login')
 
 
-});
+// });
 
 
 app.post("/login", function (req, res) {
 
-    superadmin.find({login: req.body.login, password: hash(req.body.password)}, function (err, result) {
+    superadmin.find({login: req.body.login, password: req.body.password}, function (err, result) {
         if (result.length !== 0) {
             res.json(true)
         }
