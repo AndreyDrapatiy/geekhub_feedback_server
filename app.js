@@ -35,9 +35,9 @@ app.use(bodyParser.json());
 //     })
 // });
 
-// app.get('/login', function (req, res) {
-//     res.render('login.ejs')
-// });
+app.get('/login', function (req, res) {
+    res.render('login.ejs')
+});
 //
 // app.post("/newsuperadmin", function (req, res) {
 //
@@ -102,7 +102,7 @@ app.post("/login", function (req, res) {
         if (result.length !== 0) {
             res.json(true)
         }
-        else res.json(true)
+        else res.json(req.body.login)
     });
 
 });
