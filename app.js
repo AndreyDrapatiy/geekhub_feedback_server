@@ -7,6 +7,12 @@ const mongoose = require('mongoose');
 const nodemailer = require('nodemailer');
 require('./mangoose');
 
+app.use( bodyParser.json() );       // to support JSON-encoded bodies
+app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+    extended: true
+}));
+app.use(express.static(__dirname + '/public'));
+
 
 var userSchema = mongoose.Schema({
 // the record model in bd
@@ -18,10 +24,6 @@ var userSchema = mongoose.Schema({
 var superadmin = mongoose.model("superadmin", userSchema);
 
 
-app.use(express.static(__dirname + '/public'));
-
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.json());
 
 
 // app.get("/", function (req, res) { //При отсутствии супер админа, предложит создать, если он уже есть, залогинится
@@ -98,14 +100,15 @@ app.get('/login', function (req, res) {
 
 app.post("/login", function (req, res) {
 
-    var login = req.body.login;
-    var password = req.body.password;
+    var login = req.param("login", null);
+    var password = req.param("password", null);
+
 
     superadmin.find({login: login, password: password}, function (err, result) {
         if (result.length !== 0) {
             res.json(true)
         }
-        else res.json(login, password)
+        else res.json(false)
     });
 
 });
