@@ -98,11 +98,14 @@ app.get('/login', function (req, res) {
 
 app.post("/login", function (req, res) {
 
-    superadmin.find({login: req.body.login, password: req.body.password}, function (err, result) {
+    var login = req.body.login;
+    var password = req.body.password;
+
+    superadmin.find({login: login, password: password}, function (err, result) {
         if (result.length !== 0) {
             res.json(true)
         }
-        else res.json(req.body.login)
+        else res.json(login, password)
     });
 
 });
