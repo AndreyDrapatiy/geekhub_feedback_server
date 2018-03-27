@@ -26,7 +26,15 @@ var userSchema = mongoose.Schema({
     status: String
 });
 
+var teacherSchema = mongoose.Schema({
+// the record model in bd
+    name: String,
+    course: String,
+    image: String
+});
+
 var superadmin = mongoose.model("superadmin", userSchema);
+var teacher = mongoose.model("teacher", teacherSchema);
 
 
 
@@ -120,18 +128,25 @@ app.post("/login", function (req, res) {
 
 app.post("/teacher", function (req, res) {
 
-    res.json('ok')
 
-    // var login = req.param("login", null);
-    // var password = req.param("password", null);
-    //
-    //
-    // superadmin.find({login: login, password: password}, function (err, result) {
-    //     if (result.length !== 0) {
-    //         res.json(true)
-    //     }
-    //     else res.json(false)
-    // });
+    teacher.create({
+
+            _id: id,
+            name: req.body.name,
+            course: req.body.course,
+            image: req.body.image
+
+
+        },
+
+        function (err) {
+            if (err) return console.log(err);
+            console.log("Сохранен объект superadmin", id);
+        });
+
+    res.json('ok');
+
+
 
 });
 
