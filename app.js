@@ -142,6 +142,13 @@ app.post("/teacher", function (req, res) {
 
 });
 
+app.get("/teacher", function (req, res) {
+
+    teacher.find(function (err, result) {
+            res.json(result)
+        })
+});
+
 
 app.get("/:id", function (req, res) {
     var confirmId = req.params.id;
@@ -161,7 +168,7 @@ MongoClient.connect('mongodb://root:root@ds133136.mlab.com:33136/heroku_5f0kbkt5
         return console.log(err)
     }
 
-    var port = process.env.PORT || 3000;
+    var port = process.env.PORT || 3001;
     app.listen(port, function () {
         console.log("Listening on " + port);
     });
