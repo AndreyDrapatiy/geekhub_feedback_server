@@ -118,6 +118,24 @@ app.post("/login", function (req, res) {
 
 });
 
+app.post("/teacher", function (req, res) {
+
+    res.json('ok')
+
+    // var login = req.param("login", null);
+    // var password = req.param("password", null);
+    //
+    //
+    // superadmin.find({login: login, password: password}, function (err, result) {
+    //     if (result.length !== 0) {
+    //         res.json(true)
+    //     }
+    //     else res.json(false)
+    // });
+
+});
+
+
 app.get("/:id", function (req, res) {
     var confirmId = req.params.id;
 
