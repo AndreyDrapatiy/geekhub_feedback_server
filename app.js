@@ -128,25 +128,17 @@ app.post("/login", function (req, res) {
 
 app.post("/teacher", function (req, res) {
 
-
     teacher.create({
-
-            _id: id,
             name: req.body.name,
             course: req.body.course,
             image: req.body.image
-
-
         },
 
         function (err) {
             if (err) return console.log(err);
-            console.log("Сохранен объект superadmin", id);
         });
 
-    res.json('ok');
-
-
+    res.json("save obj teacher");
 
 });
 
