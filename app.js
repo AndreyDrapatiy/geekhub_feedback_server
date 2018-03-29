@@ -114,8 +114,8 @@ app.post("/sendmail", function (req, res) {
                 port: 587,
                 secure: false, // true for 465, false for other ports
                 auth: {
-                    user: 'drapatiy92@gmail.com', // generated ethereal user
-                    pass: 'drapatiy92' // generated ethereal password
+                    user: 'geekhubfeedback@gmail.com', // generated ethereal user
+                    pass: 'geekhub18' // generated ethereal password
                 }
             });
 
@@ -163,7 +163,7 @@ MongoClient.connect('mongodb://root:root@ds133136.mlab.com:33136/heroku_5f0kbkt5
         return console.log(err)
     }
 
-    var port = process.env.PORT || 3001;
+    var port = process.env.PORT || 3002;
     app.listen(port, function () {
         console.log("Listening on " + port);
     });
