@@ -7,8 +7,6 @@ const mongoose = require('mongoose');
 const nodemailer = require('nodemailer');
 require('./mangoose');
 
-let fs = require('fs');
-let busboy = require('connect-busboy');
 
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
@@ -16,7 +14,6 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 }));
 app.use(express.static(__dirname + '/public'));
 
-app.use(busboy());
 
 
 app.use(function(req, res, next) {
@@ -39,8 +36,16 @@ let teacherSchema = mongoose.Schema({
     image: String
 });
 
+let studentSchema = mongoose.Schema({
+    _id:String,
+    teacher: [],
+    wasSend: String,
+    closeLink: String
+});
+
 let superadmin = mongoose.model("superadmin", userSchema);
 let teacher = mongoose.model("teacher", teacherSchema);
+let student = mongoose.model("student", studentSchema);
 
 
 
@@ -92,20 +97,27 @@ app.get("/teacher", function (req, res) {
 
 app.post("/sendmail", function (req, res) {
 
-   let teachers = req.body.teachers;
-
-
 
     for (let emails = req.body.emails, j = 0, lj = emails.length; j < lj; j++) {
 
-        console.log(emails[j]);
-
         let recipient = emails[j];
+        let teacher = req.body.teachers;
+        let id = hash(Math.random().toString());
 
-// Generate test SMTP service account from ethereal.email
-// Only needed if you don't have a real mail account for testing
+    student.create({
+            _id:id,
+            teacher: teacher,
+            wasSend: "true",
+            closeLink: "false"
+        },
+
+        function (err) {
+            if (err) return console.log(err);
+            console.log("Сохранен объект student");
+        });
+
+
         nodemailer.createTestAccount((err, account) => {
-            // create reusable transporter object using the default SMTP transport
             let transporter = nodemailer.createTransport({
                 host: 'smtp.gmail.com',
                 port: 587,
@@ -121,7 +133,7 @@ app.post("/sendmail", function (req, res) {
             from: 'GeekHub FeedBack', // sender address
             to: recipient, // list of receivers
             subject: 'Hello ✔', // Subject line
-            text: 'Hello', // plain text body
+            text: 'https://rocky-sands-24081.herokuapp.com/feedback'+id
             // html: '<b>Hello world?</b>' // html body
         };
 
@@ -134,19 +146,20 @@ app.post("/sendmail", function (req, res) {
         // Preview only available when sending through an Ethereal account
         console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
 
-        // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
-        // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
-    })
-        ;
-    })
-        ;
+    });
+    });
 
     }
     res.json('ok')
 
 });
 
+app.get("/feedback/:id", function (req, res) {
 
+
+    res.json('ok')
+
+});
 
 
 
@@ -162,7 +175,7 @@ MongoClient.connect('mongodb://root:root@ds133136.mlab.com:33136/heroku_5f0kbkt5
         return console.log(err)
     }
 
-    let port = process.env.PORT || 3002;
+    let port = process.env.PORT || 3003;
     app.listen(port, function () {
         console.log("Listening on " + port);
     });
