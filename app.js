@@ -1,10 +1,11 @@
 const express = require('express');
 const app = express();
-const bodyParser = require('body-parser');
 const crypto = require('crypto');
 const MongoClient = require('mongodb').MongoClient;
 const mongoose = require('mongoose');
 const nodemailer = require('nodemailer');
+const bodyParser = require('body-parser');
+
 require('./mangoose');
 
 
@@ -133,7 +134,7 @@ app.post("/sendmail", function (req, res) {
             from: 'GeekHub FeedBack', // sender address
             to: recipient, // list of receivers
             subject: 'Hello ✔', // Subject line
-            text: 'https://rocky-sands-24081.herokuapp.com/feedback/'+id
+            text: 'https://localhost:3003/feedback/'+id
             // html: '<b>Hello world?</b>' // html body
         };
 
@@ -156,8 +157,9 @@ app.post("/sendmail", function (req, res) {
 
 app.get("/feedback/:id", function (req, res) {
 
+    let id = req.body.id;
 
-    res.json('ok')
+    res.json(id)
 
 });
 
