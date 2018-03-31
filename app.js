@@ -103,7 +103,12 @@ app.post("/sendmail", function (req, res) {
 
         let recipient = emails[j];
         let teacher = req.body.teachers;
-        let id = hash(Math.random().toString());
+        let id = (function () {
+            let min = 111111;
+            let max = 999999;
+            return (Math.floor(Math.random() * (max - min + 1)) + min).toString();
+        }());
+
 
     student.create({
             _id:id,
@@ -122,10 +127,10 @@ app.post("/sendmail", function (req, res) {
             let transporter = nodemailer.createTransport({
                 host: 'smtp.gmail.com',
                 port: 587,
-                secure: false, // true for 465, false for other ports
+                secure: false,
                 auth: {
-                    user: 'geekhubfeedback@gmail.com', // generated ethereal user
-                    pass: 'geekhub18' // generated ethereal password
+                    user: 'geekhubfeedback@gmail.com',
+                    pass: 'geekhub18'
                 }
             });
 
@@ -134,7 +139,7 @@ app.post("/sendmail", function (req, res) {
             from: 'GeekHub FeedBack', // sender address
             to: recipient, // list of receivers
             subject: 'Hello ✔', // Subject line
-            text: 'https://rocky-sands-24081.herokuapp.com/feedback/'+id
+            text: 'localhost:3003/feedback/'+id
             // html: '<b>Hello world?</b>' // html body
         };
 
@@ -157,9 +162,13 @@ app.post("/sendmail", function (req, res) {
 
 app.get("/feedback/:id", function (req, res) {
 
-    let id = req.body.id;
+    let id = req.params.id;
 
-    res.json(id)
+    student.findOne({_id: id}, function (err, result) {
+        if (!err) {
+           res.json(result.teacher)
+        }
+    });
 
 });
 
