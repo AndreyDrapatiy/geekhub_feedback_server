@@ -139,7 +139,7 @@ app.post("/sendmail", function (req, res) {
             from: 'GeekHub FeedBack', // sender address
             to: recipient, // list of receivers
             subject: 'Hello ✔', // Subject line
-            text: 'https://dashboard.heroku.com/apps/rocky-sands-24081/feedback/'+id
+            text: 'https://rocky-sands-24081.herokuapp.com/feedback/'+id
             // html: '<b>Hello world?</b>' // html body
         };
 
@@ -186,7 +186,7 @@ MongoClient.connect('mongodb://root:root@ds133136.mlab.com:33136/heroku_5f0kbkt5
         return console.log(err)
     }
 
-    let port = process.env.PORT || 3003;
+    let port = process.env.PORT || 3000;
     app.listen(port, function () {
         console.log("Listening on " + port);
     });
