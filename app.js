@@ -139,7 +139,7 @@ app.post("/sendmail", function (req, res) {
             from: 'GeekHub FeedBack', // sender address
             to: recipient, // list of receivers
             subject: 'Hello ✔', // Subject line
-            text: 'localhost:3003/feedback/'+id
+            text: 'https://dashboard.heroku.com/apps/rocky-sands-24081/feedback/'+id
             // html: '<b>Hello world?</b>' // html body
         };
 
